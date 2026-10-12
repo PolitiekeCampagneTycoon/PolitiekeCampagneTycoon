@@ -37,6 +37,15 @@
       filter: grayscale(100%);
       opacity: 0.4;
     }
+
+    .level-complete-card {
+      animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    @keyframes popIn {
+      0% { opacity: 0; transform: scale(0.9); }
+      100% { opacity: 1; transform: scale(1); }
+    }
   </style>
 </head>
 <body class="min-h-screen text-slate-800 flex flex-col">
@@ -76,28 +85,32 @@
       </div>
     </div>
 
-    <!-- MODULE NAVIGATION -->
+    <!-- MODULE NAVIGATION WITH CLEAR LEVEL STATUS -->
     <nav class="bg-indigo-800 border-t border-indigo-700/50">
-      <div class="max-w-6xl mx-auto px-2 flex overflow-x-auto space-x-1 py-1 text-sm font-medium">
-        <button onclick="switchTab('stromingen')" id="tab-stromingen" class="nav-btn flex items-center space-x-2 px-4 py-2 rounded-lg text-white bg-indigo-600 shadow">
+      <div class="max-w-6xl mx-auto px-2 flex overflow-x-auto space-x-2 py-2 text-sm font-medium">
+        <button onclick="switchTab('stromingen')" id="tab-stromingen" class="nav-btn flex items-center space-x-2 px-3.5 py-2 rounded-xl text-white bg-indigo-600 shadow transition">
           <i class="fa-solid fa-compass"></i>
-          <span>1. Stromingen</span>
+          <span>Lvl 1: Stromingen</span>
+          <span id="nav-check-stromingen" class="hidden text-xs bg-emerald-500 text-white px-1.5 py-0.5 rounded-full"><i class="fa-solid fa-check"></i></span>
         </button>
-        <button onclick="switchTab('coalitie')" id="tab-coalitie" class="nav-btn flex items-center space-x-2 px-4 py-2 rounded-lg text-indigo-200 hover:text-white hover:bg-indigo-700">
+        <button onclick="switchTab('coalitie')" id="tab-coalitie" class="nav-btn flex items-center space-x-2 px-3.5 py-2 rounded-xl text-indigo-200 hover:text-white hover:bg-indigo-700 transition">
           <i class="fa-solid fa-handshake"></i>
-          <span>2. Formeer Coalitie</span>
+          <span>Lvl 2: Regeerakkoord</span>
+          <span id="nav-check-coalitie" class="hidden text-xs bg-emerald-500 text-white px-1.5 py-0.5 rounded-full"><i class="fa-solid fa-check"></i></span>
         </button>
-        <button onclick="switchTab('wetgeving')" id="tab-wetgeving" class="nav-btn flex items-center space-x-2 px-4 py-2 rounded-lg text-indigo-200 hover:text-white hover:bg-indigo-700">
+        <button onclick="switchTab('wetgeving')" id="tab-wetgeving" class="nav-btn flex items-center space-x-2 px-3.5 py-2 rounded-xl text-indigo-200 hover:text-white hover:bg-indigo-700 transition">
           <i class="fa-solid fa-scroll"></i>
-          <span>3. Idee tot Wet</span>
+          <span>Lvl 3: Idee tot Wet</span>
+          <span id="nav-check-wetgeving" class="hidden text-xs bg-emerald-500 text-white px-1.5 py-0.5 rounded-full"><i class="fa-solid fa-check"></i></span>
         </button>
-        <button onclick="switchTab('dilemmas')" id="tab-dilemmas" class="nav-btn flex items-center space-x-2 px-4 py-2 rounded-lg text-indigo-200 hover:text-white hover:bg-indigo-700">
+        <button onclick="switchTab('dilemmas')" id="tab-dilemmas" class="nav-btn flex items-center space-x-2 px-3.5 py-2 rounded-xl text-indigo-200 hover:text-white hover:bg-indigo-700 transition">
           <i class="fa-solid fa-scale-balanced"></i>
-          <span>4. Minister Dilemma's</span>
+          <span>Lvl 4: Dilemma's</span>
+          <span id="nav-check-dilemma" class="hidden text-xs bg-emerald-500 text-white px-1.5 py-0.5 rounded-full"><i class="fa-solid fa-check"></i></span>
         </button>
-        <button onclick="switchTab('theorie')" id="tab-theorie" class="nav-btn flex items-center space-x-2 px-4 py-2 rounded-lg text-indigo-200 hover:text-white hover:bg-indigo-700">
+        <button onclick="switchTab('theorie')" id="tab-theorie" class="nav-btn flex items-center space-x-2 px-3.5 py-2 rounded-xl text-indigo-200 hover:text-white hover:bg-indigo-700 transition">
           <i class="fa-solid fa-book-open"></i>
-          <span>Begrippenlijst</span>
+          <span>Begrippen</span>
         </button>
       </div>
     </nav>
@@ -117,6 +130,7 @@
       <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200 mb-6">
         <div class="flex flex-col md:flex-row md:items-center justify-between border-b border-slate-100 pb-4 mb-6 gap-2">
           <div>
+            <div class="text-xs font-bold uppercase tracking-wider text-indigo-600 mb-1">Level 1 van 4</div>
             <h2 class="text-2xl font-bold text-slate-800">Politieke Stromingen Matcher</h2>
             <p class="text-slate-500 text-sm">Koppel de politieke stellingen aan de juiste hoofdstroming in Nederland.</p>
           </div>
@@ -146,55 +160,85 @@
       </div>
     </section>
 
-    <!-- MODULE 2: FORMALISEREN VAN EEN COALITIE -->
+    <!-- MODULE 2: HET REGEERAKKOORD (WATER BIJ DE WIJN) -->
     <section id="module-coalitie" class="tab-content hidden">
       <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200 mb-6">
         <div class="border-b border-slate-100 pb-4 mb-6">
-          <h2 class="text-2xl font-bold text-slate-800">Formeer een Meerderheidscoalitie</h2>
-          <p class="text-slate-500 text-sm">De Tweede Kamer telt 150 zetels. Voor een stabiele regering heb je minimaal <strong>76 zetels</strong> nodig. Kies partijen die inhoudelijk voldoende bij elkaar passen!</p>
+          <div class="text-xs font-bold uppercase tracking-wider text-indigo-600 mb-1">Level 2 van 4</div>
+          <h2 class="text-2xl font-bold text-slate-800">Het Regeerakkoord: Water bij de Wijn</h2>
+          <p class="text-slate-500 text-sm">Als Formateur onderhandel je met drie coalitiepartijen. Maak keuzes op 4 dossiers en zorg dat **alle 3 partijen minimaal 60% tevreden** zijn met het definitieve akkoord!</p>
         </div>
 
-        <!-- SEAT PROGRESS BAR -->
-        <div class="bg-slate-100 rounded-2xl p-4 mb-6 border border-slate-200">
-          <div class="flex justify-between items-center mb-2 font-bold text-sm">
-            <span>Totaal geselecteerde zetels:</span>
-            <span id="selected-seats-count" class="text-2xl text-indigo-600">0 / 150</span>
-          </div>
-          <div class="w-full bg-slate-300 rounded-full h-5 overflow-hidden relative">
-            <!-- 76 seats marker line -->
-            <div class="absolute left-[50.6%] top-0 bottom-0 w-1 bg-red-600 z-10" title="Meerderheid (76 zetels)"></div>
-            <div id="seats-progress-bar" class="bg-indigo-600 h-full w-0 transition-all duration-500"></div>
-          </div>
-          <div class="flex justify-between text-xs text-slate-500 mt-1">
-            <span>0 zetels</span>
-            <span class="text-red-600 font-bold">76 zetels (Meerderheid)</span>
-            <span>150 zetels</span>
+        <!-- COALITION PARTNER SATISFACTION METERS -->
+        <div class="mb-8">
+          <h3 class="text-sm font-bold text-slate-700 uppercase tracking-wider mb-3 flex items-center">
+            <i class="fa-solid fa-users text-indigo-600 mr-2"></i> Tevredenheid Coalitiepartijen
+          </h3>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            
+            <!-- Party 1 -->
+            <div class="bg-blue-50 border border-blue-200 p-4 rounded-xl">
+              <div class="flex justify-between items-center mb-1">
+                <span class="font-bold text-sm text-blue-900">Partij Markt & Vrijheid</span>
+                <span id="sat-val-rechts" class="text-sm font-extrabold text-blue-700">50%</span>
+              </div>
+              <div class="text-[11px] text-blue-600 font-medium mb-2">Rechts-Liberaal • Lagere belasting, vrije markt</div>
+              <div class="w-full bg-blue-200 rounded-full h-3.5 overflow-hidden">
+                <div id="sat-bar-rechts" class="bg-blue-600 h-full w-[50%] transition-all duration-300"></div>
+              </div>
+            </div>
+
+            <!-- Party 2 -->
+            <div class="bg-emerald-50 border border-emerald-200 p-4 rounded-xl">
+              <div class="flex justify-between items-center mb-1">
+                <span class="font-bold text-sm text-emerald-900">Centrum Alliantie</span>
+                <span id="sat-val-midden" class="text-sm font-extrabold text-emerald-700">50%</span>
+              </div>
+              <div class="text-[11px] text-emerald-600 font-medium mb-2">Midden-Confessioneel • Gezin, nuance, zorg</div>
+              <div class="w-full bg-emerald-200 rounded-full h-3.5 overflow-hidden">
+                <div id="sat-bar-midden" class="bg-emerald-600 h-full w-[50%] transition-all duration-300"></div>
+              </div>
+            </div>
+
+            <!-- Party 3 -->
+            <div class="bg-rose-50 border border-rose-200 p-4 rounded-xl">
+              <div class="flex justify-between items-center mb-1">
+                <span class="font-bold text-sm text-rose-900">Groene Solidariteit</span>
+                <span id="sat-val-links" class="text-sm font-extrabold text-rose-700">50%</span>
+              </div>
+              <div class="text-[11px] text-rose-600 font-medium mb-2">Links-Progressief • Klimaat, herverdeling</div>
+              <div class="w-full bg-rose-200 rounded-full h-3.5 overflow-hidden">
+                <div id="sat-bar-links" class="bg-rose-600 h-full w-[50%] transition-all duration-300"></div>
+              </div>
+            </div>
+
           </div>
         </div>
 
-        <!-- PARTIES GRID -->
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-6" id="parties-container">
-          <!-- Parties rendered by JS -->
+        <!-- POLICY ISSUES -->
+        <div class="space-y-6 mb-8" id="policy-issues-container">
+          <!-- Rendered dynamically by JS -->
         </div>
 
+        <!-- TIP BOX -->
         <div class="bg-amber-50 border border-amber-200 text-amber-900 rounded-xl p-4 mb-6 flex items-start space-x-3">
           <i class="fa-solid fa-lightbulb text-amber-500 text-xl mt-0.5"></i>
           <div class="text-sm">
-            <strong>Maatschappijleer Tip:</strong> Hoe groter het verschil op de links/rechts-as of progressief/conservatief-as tussen partijen, hoe moeilijker het is om te onderhandelen!
+            <strong>Maatschappijleer Les:</strong> Een compromis betekent dat niemand 100% zijn zin krijgt, maar iedereen genoeg tevreden is om samen te regeren. Dat noemen we "Polderen"!
           </div>
         </div>
 
         <div class="flex justify-between items-center flex-wrap gap-4">
-          <button onclick="resetCoalition()" class="px-4 py-2 border border-slate-300 rounded-xl hover:bg-slate-50 text-slate-700 font-medium text-sm">
-            <i class="fa-solid fa-rotate-left mr-2"></i> Reset Keuze
+          <button onclick="resetAgreement()" class="px-4 py-2 border border-slate-300 rounded-xl hover:bg-slate-50 text-slate-700 font-medium text-sm">
+            <i class="fa-solid fa-rotate-left mr-2"></i> Herstel Beginstand
           </button>
-          <button onclick="validateCoalition()" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-6 py-3 rounded-xl shadow transition">
-            <i class="fa-solid fa-check-circle mr-2"></i> Test Coalitie
+          <button onclick="validateAgreement()" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-6 py-3 rounded-xl shadow transition flex items-center">
+            <i class="fa-solid fa-signature mr-2"></i> Onderteken Regeerakkoord
           </button>
         </div>
 
-        <!-- COALITION RESULT MODAL / BOX -->
-        <div id="coalition-result" class="hidden mt-6 p-5 rounded-2xl border"></div>
+        <!-- RESULT BOX -->
+        <div id="agreement-result" class="hidden mt-6 p-5 rounded-2xl border"></div>
       </div>
     </section>
 
@@ -202,11 +246,12 @@
     <section id="module-wetgeving" class="tab-content hidden">
       <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200 mb-6">
         <div class="border-b border-slate-100 pb-4 mb-6">
+          <div class="text-xs font-bold uppercase tracking-wider text-indigo-600 mb-1">Level 3 van 4</div>
           <h2 class="text-2xl font-bold text-slate-800">Van Idee tot Wet (Wetgevingsproces)</h2>
-          <p class="text-slate-500 text-sm">Zet de stappen van het Nederlandse wetgevingsproces in de juiste volgorde!</p>
+          <p class="text-slate-500 text-sm">Zet de stappen van het Nederlandse wetgevingsproces in de juiste chronologische volgorde!</p>
         </div>
 
-        <p class="text-sm font-semibold text-slate-700 mb-3">Sleep of klik de stappen om ze in de juiste chronologische volgorde te zetten:</p>
+        <p class="text-sm font-semibold text-slate-700 mb-3">Gebruik de pijl-knoppen om de stappen in de juiste volgorde (van 1 t/m 5) te zetten:</p>
 
         <!-- STEPS CONTAINER -->
         <div id="law-steps-list" class="space-y-3 mb-6">
@@ -230,7 +275,8 @@
     <section id="module-dilemmas" class="tab-content hidden">
       <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200 mb-6">
         <div class="border-b border-slate-100 pb-4 mb-6">
-          <h2 class="text-2xl font-bold text-slate-800">Ministeriele Dilemma's</h2>
+          <div class="text-xs font-bold uppercase tracking-wider text-indigo-600 mb-1">Level 4 van 4</div>
+          <h2 class="text-2xl font-bold text-slate-800">Ministeriële Dilemma's</h2>
           <p class="text-slate-500 text-sm">In de politiek moet je schaarse middelen verdelen en scherpe keuzes maken. Hoe reageer jij op maatschappelijke problemen?</p>
         </div>
 
@@ -272,19 +318,19 @@
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div class="p-4 rounded-xl border border-slate-200 bg-slate-50">
             <h3 class="font-bold text-indigo-900 text-base mb-1">Liberalisme</h3>
-            <p class="text-xs text-slate-600">Kernwaarde: **Vrijheid**. De overheid moet zo min mogelijk ingrijpen in de economie en de markt haar werk laten doen. Eigen verantwoordelijkheid van burgers staat centraal.</p>
+            <p class="text-xs text-slate-600">Kernwaarde: <strong>Vrijheid</strong>. De overheid moet zo min mogelijk ingrijpen in de economie en de markt haar werk laten doen. Eigen verantwoordelijkheid van burgers staat centraal.</p>
           </div>
           <div class="p-4 rounded-xl border border-slate-200 bg-slate-50">
             <h3 class="font-bold text-indigo-900 text-base mb-1">Socialisme</h3>
-            <p class="text-xs text-slate-600">Kernwaarde: **Gelijkheid & Solidariteit**. De overheid moet actief ingrijpen om zwakkeren te beschermen en welvaart eerlijk te herverdelen via belastingen en voorzieningen.</p>
+            <p class="text-xs text-slate-600">Kernwaarde: <strong>Gelijkheid & Solidariteit</strong>. De overheid moet actief ingrijpen om zwakkeren te beschermen en welvaart eerlijk te herverdelen via belastingen en voorzieningen.</p>
           </div>
           <div class="p-4 rounded-xl border border-slate-200 bg-slate-50">
             <h3 class="font-bold text-indigo-900 text-base mb-1">Confessionalisme</h3>
-            <p class="text-xs text-slate-600">Kernwaarde: **Geloof & Rentmeesterschap**. Politiek gebaseerd op een religieuze overtuiging (zoals het christendom). Benadrukt de samenleving (gezin, verenigingen) en de zorg voor elkaar.</p>
+            <p class="text-xs text-slate-600">Kernwaarde: <strong>Geloof & Rentmeesterschap</strong>. Politiek gebaseerd op een religieuze overtuiging (zoals het christendom). Benadrukt de samenleving (gezin, verenigingen) en de zorg voor elkaar.</p>
           </div>
           <div class="p-4 rounded-xl border border-slate-200 bg-slate-50">
             <h3 class="font-bold text-indigo-900 text-base mb-1">Ecologisme</h3>
-            <p class="text-xs text-slate-600">Kernwaarde: **Duurzaamheid & Milieu**. De aarde en de natuur staan centraal. Economische groei moet ondergeschikt zijn aan klimaatdoelen en milieubescherming.</p>
+            <p class="text-xs text-slate-600">Kernwaarde: <strong>Duurzaamheid & Milieu</strong>. De aarde en de natuur staan centraal. Economische groei moet ondergeschikt zijn aan klimaatdoelen en milieubescherming.</p>
           </div>
           <div class="p-4 rounded-xl border border-slate-200 bg-slate-50">
             <h3 class="font-bold text-indigo-900 text-base mb-1">Recht van Amendement</h3>
@@ -312,7 +358,7 @@
         <div id="badge-coalitie" class="badge-locked bg-indigo-900/60 border border-indigo-800 rounded-xl p-3 text-center transition">
           <div class="text-3xl mb-1">🏛️</div>
           <div class="font-bold text-xs text-indigo-200">Formateur</div>
-          <div class="text-[10px] text-indigo-400">Meerderheid gevormd</div>
+          <div class="text-[10px] text-indigo-400">Regeerakkoord gesloten</div>
         </div>
         <div id="badge-wetgeving" class="badge-locked bg-indigo-900/60 border border-indigo-800 rounded-xl p-3 text-center transition">
           <div class="text-3xl mb-1">📜</div>
@@ -347,7 +393,7 @@
       dilemma: false
     };
 
-    // TAB NAVIGATION
+    // TAB NAVIGATION WITH CLEAR LEVEL STATUS
     function switchTab(tabId) {
       document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
       document.querySelectorAll('.nav-btn').forEach(btn => {
@@ -355,10 +401,16 @@
         btn.classList.add('text-indigo-200');
       });
 
-      document.getElementById(`module-${tabId}`).classList.remove('hidden');
+      const targetTab = document.getElementById(`module-${tabId}`);
+      if (targetTab) targetTab.classList.remove('hidden');
+
       const activeBtn = document.getElementById(`tab-${tabId}`);
-      activeBtn.classList.add('bg-indigo-600', 'text-white', 'shadow');
-      activeBtn.classList.remove('text-indigo-200');
+      if (activeBtn) {
+        activeBtn.classList.add('bg-indigo-600', 'text-white', 'shadow');
+        activeBtn.classList.remove('text-indigo-200');
+      }
+
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
     function addPoints(pts) {
@@ -401,11 +453,21 @@
     function unlockBadge(badgeId) {
       if (!unlockedBadges[badgeId]) {
         unlockedBadges[badgeId] = true;
+        
+        // Update Badge Card
         const el = document.getElementById(`badge-${badgeId}`);
         if (el) {
           el.classList.remove('badge-locked');
           el.classList.add('badge-unlocked');
         }
+
+        // Update Nav Checkmark
+        const checkEl = document.getElementById(`nav-check-${badgeId}`);
+        if (checkEl) {
+          checkEl.classList.remove('hidden');
+          checkEl.classList.add('inline-block');
+        }
+
         showToast("Nieuwe Badge Ontgrendeld!", "fa-trophy text-amber-400");
       }
     }
@@ -474,7 +536,6 @@
       const feedbackEl = document.getElementById('stroming-feedback');
       const buttons = document.getElementById('stroming-options').children;
 
-      // Disable buttons
       for (let btn of buttons) {
         btn.disabled = true;
         btn.classList.add('opacity-75', 'cursor-not-allowed');
@@ -503,12 +564,13 @@
       } else {
         unlockBadge('stromingen');
         document.getElementById('module-stromingen').innerHTML = `
-          <div class="bg-white rounded-2xl p-8 text-center border border-slate-200 shadow-sm">
+          <div class="bg-white rounded-2xl p-8 text-center border border-slate-200 shadow-sm level-complete-card">
             <div class="text-5xl mb-3">🎉</div>
-            <h2 class="text-2xl font-bold text-slate-800 mb-2">Stromingen Quiz Voltooid!</h2>
-            <p class="text-slate-600 text-sm mb-6">Je hebt alle vragen over politieke ideologieën afgerond.</p>
-            <button onclick="switchTab('coalitie')" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold px-6 py-2.5 rounded-xl shadow">
-              Ga naar de volgende game: Formeer Coalitie <i class="fa-solid fa-arrow-right ml-2"></i>
+            <div class="text-xs font-bold uppercase tracking-wider text-emerald-600 mb-1">Level 1 Voltooid</div>
+            <h2 class="text-2xl font-bold text-slate-800 mb-2">Stromingen Quiz Afgerond!</h2>
+            <p class="text-slate-600 text-sm mb-6 max-w-md mx-auto">Je kent de kernwaarden van de Nederlandse politieke hoofdstromingen. Tijd om te gaan onderhandelen!</p>
+            <button onclick="switchTab('coalitie')" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold px-8 py-3 rounded-xl shadow-lg hover:shadow-indigo-200 transition transform hover:-translate-y-0.5">
+              Speel Level 2: Regeerakkoord <i class="fa-solid fa-arrow-right ml-2"></i>
             </button>
           </div>
         `;
@@ -516,258 +578,373 @@
     }
 
     // ==========================================
-    // MODULE 2: COALITIE FORMATION LOGIC
+    // MODULE 2: REGEERAKKOORD / COMPROMIS LOGIC
     // ==========================================
-    const parties = [
-      { id: 'vvd', name: 'Volk & Vrijheid', seats: 34, spectrum: 'rechts-liberaal', color: 'bg-blue-600' },
-      { id: 'pvda', name: 'Sociale Unie', seats: 28, spectrum: 'links-sociaal', color: 'bg-red-600' },
-      { id: 'cda', name: 'Christen Appèl', seats: 22, spectrum: 'centrum-confessioneel', color: 'bg-emerald-600' },
-      { id: 'gl', name: 'Groen Toekomst', seats: 20, spectrum: 'links-ecologisch', color: 'bg-green-600' },
-      { id: 'pvv', name: 'Nationale Partij', seats: 24, spectrum: 'rechts-populistisch', color: 'bg-slate-800' },
-      { id: 'd66', name: 'Progressief 2030', seats: 14, spectrum: 'centrum-progressief', color: 'bg-cyan-600' },
-      { id: 'sgp', name: 'Bijbels Belang', seats: 8, spectrum: 'rechts-confessioneel', color: 'bg-orange-600' }
+    const agreementIssues = [
+      {
+        id: 'klimaat',
+        title: '1. Klimaat & Energie',
+        description: 'Hoe pakken we het klimaatprobleem aan?',
+        options: [
+          {
+            label: 'A. Strikte CO2-belasting voor bedrijven',
+            effect: { rechts: -20, midden: 0, links: +30 },
+            subtext: 'Links is enthousiast, Rechts haakt af.'
+          },
+          {
+            label: 'B. Subsidies voor groene innovatie & isolatie',
+            effect: { rechts: +10, midden: +20, links: +10 },
+            subtext: 'Compromis! Iedereen tevreden.'
+          },
+          {
+            label: 'C. Vrijwillige vergroening & kernenergie',
+            effect: { rechts: +25, midden: +10, links: -20 },
+            subtext: 'Rechts blij, Links is erg kritisch.'
+          }
+        ]
+      },
+      {
+        id: 'belasting',
+        title: '2. Belastingen & Economie',
+        description: 'Wat doen we met de inkomstenbelasting en bedrijven?',
+        options: [
+          {
+            label: 'A. Toptarief omhoog & vermogensbelasting',
+            effect: { rechts: -25, midden: 0, links: +25 },
+            subtext: 'Herverdeelt geld naar lage inkomens.'
+          },
+          {
+            label: 'B. Middeninkomens en gezinnen ontlasten',
+            effect: { rechts: +10, midden: +25, links: +10 },
+            subtext: 'Evenwichtig Midden-beleid.'
+          },
+          {
+            label: 'C. Winstbelasting verlagen voor vestigingsklimaat',
+            effect: { rechts: +30, midden: 0, links: -25 },
+            subtext: 'Goed voor bedrijven, slecht volgens Links.'
+          }
+        ]
+      },
+      {
+        id: 'zorg',
+        title: '3. Gezondheidszorg',
+        description: 'Hoe houden we de stijgende zorgkosten beheersbaar?',
+        options: [
+          {
+            label: 'A. Eigen risico volledig afschaffen',
+            effect: { rechts: -15, midden: +5, links: +30 },
+            subtext: 'Duur, maar erg populair op links.'
+          },
+          {
+            label: 'B. Eigen risico bevriezen & buurthuizen versterken',
+            effect: { rechts: +10, midden: +20, links: +10 },
+            subtext: 'Middenoplossing gericht op samenleving.'
+          },
+          {
+            label: 'C. Meer marktwerking & eigen bijdrage verhogen',
+            effect: { rechts: +25, midden: -10, links: -25 },
+            subtext: 'Beperkt overheidsuitgaven.'
+          }
+        ]
+      },
+      {
+        id: 'onderwijs',
+        title: '4. Onderwijs & Studiefinanciering',
+        description: 'Hoe ondersteunen we de nieuwe generatie?',
+        options: [
+          {
+            label: 'A. Gratis OV & hogere basisbeurs',
+            effect: { rechts: -10, midden: +10, links: +25 },
+            subtext: 'Investering in de jeugd.'
+          },
+          {
+            label: 'B. Prestatiebeurs met kwijtschelding bij diploma',
+            effect: { rechts: +15, midden: +15, links: 0 },
+            subtext: 'Prikkel tot presteren & steun.'
+          },
+          {
+            label: 'C. Leningstelsel behouden met lage rente',
+            effect: { rechts: +25, midden: -15, links: -20 },
+            subtext: 'Bespaart geld op de begroting.'
+          }
+        ]
+      }
     ];
 
-    let selectedPartyIds = [];
+    let userSelections = {
+      klimaat: null,
+      belasting: null,
+      zorg: null,
+      onderwijs: null
+    };
 
-    function renderParties() {
-      const container = document.getElementById('parties-container');
+    function renderAgreementGame() {
+      const container = document.getElementById('policy-issues-container');
+      if (!container) return;
       container.innerHTML = '';
 
-      parties.forEach(p => {
-        const isSelected = selectedPartyIds.includes(p.id);
-        const card = document.createElement('div');
-        card.className = `p-4 rounded-xl border-2 cursor-pointer transition flex items-center justify-between ${
-          isSelected 
-            ? 'border-indigo-600 bg-indigo-50/70 shadow-sm' 
-            : 'border-slate-200 bg-white hover:border-slate-300'
-        }`;
-        card.onclick = () => toggleParty(p.id);
+      agreementIssues.forEach((issue) => {
+        const issueBox = document.createElement('div');
+        issueBox.className = "bg-slate-50 border border-slate-200 rounded-2xl p-5";
+        
+        let optionsHtml = issue.options.map((opt, idx) => {
+          const isSelected = userSelections[issue.id] === idx;
+          return `
+            <button onclick="selectPolicyOption('${issue.id}', ${idx})" className="w-full text-left">
+              <div class="p-3.5 rounded-xl border transition ${
+                isSelected 
+                  ? 'bg-indigo-600 text-white border-indigo-600 shadow-md' 
+                  : 'bg-white text-slate-800 border-slate-200 hover:border-indigo-300 hover:bg-indigo-50/50'
+              }">
+                <div class="font-semibold text-sm mb-0.5">${opt.label}</div>
+                <div class="text-[11px] ${isSelected ? 'text-indigo-100' : 'text-slate-500'}">${opt.subtext}</div>
+              </div>
+            </button>
+          `;
+        }).join('');
 
-        card.innerHTML = `
-          <div class="flex items-center space-x-3">
-            <div class="w-3 h-10 ${p.color} rounded-full"></div>
-            <div>
-              <h4 class="font-bold text-slate-800 text-sm">${p.name}</h4>
-              <span class="text-[11px] text-slate-500 uppercase font-semibold">${p.spectrum}</span>
-            </div>
-          </div>
-          <div class="text-right">
-            <div class="text-lg font-extrabold text-slate-800">${p.seats}</div>
-            <div class="text-[10px] text-slate-400">zetels</div>
+        issueBox.innerHTML = `
+          <h4 class="font-bold text-slate-800 text-base mb-1">${issue.title}</h4>
+          <p class="text-xs text-slate-500 mb-3">${issue.description}</p>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+            ${optionsHtml}
           </div>
         `;
 
-        container.appendChild(card);
+        container.appendChild(issueBox);
       });
 
-      updateSeatsProgress();
+      calculateSatisfaction();
     }
 
-    function toggleParty(partyId) {
-      if (selectedPartyIds.includes(partyId)) {
-        selectedPartyIds = selectedPartyIds.filter(id => id !== partyId);
-      } else {
-        selectedPartyIds.push(partyId);
-      }
-      renderParties();
+    function selectPolicyOption(issueId, optionIdx) {
+      userSelections[issueId] = optionIdx;
+      renderAgreementGame();
     }
 
-    function updateSeatsProgress() {
-      const totalSeats = selectedPartyIds.reduce((sum, id) => {
-        const p = parties.find(x => x.id === id);
-        return sum + (p ? p.seats : 0);
-      }, 0);
+    function calculateSatisfaction() {
+      let sat = { rechts: 50, midden: 50, links: 50 };
 
-      document.getElementById('selected-seats-count').textContent = `${totalSeats} / 150`;
-      const pct = Math.min((totalSeats / 150) * 100, 100);
-      const progressBar = document.getElementById('seats-progress-bar');
-      progressBar.style.width = `${pct}%`;
+      Object.keys(userSelections).forEach(issueId => {
+        const selectedIdx = userSelections[issueId];
+        if (selectedIdx !== null) {
+          const issue = agreementIssues.find(i => i.id === issueId);
+          const opt = issue.options[selectedIdx];
+          sat.rechts += opt.effect.rechts;
+          sat.midden += opt.effect.midden;
+          sat.links += opt.effect.links;
+        }
+      });
 
-      if (totalSeats >= 76) {
-        progressBar.className = "bg-emerald-500 h-full transition-all duration-500";
-      } else {
-        progressBar.className = "bg-indigo-600 h-full transition-all duration-500";
-      }
+      // Clamp between 0 and 100
+      sat.rechts = Math.max(0, Math.min(100, sat.rechts));
+      sat.midden = Math.max(0, Math.min(100, sat.midden));
+      sat.links = Math.max(0, Math.min(100, sat.links));
+
+      // Update UI
+      updateSatDisplay('rechts', sat.rechts);
+      updateSatDisplay('midden', sat.midden);
+      updateSatDisplay('links', sat.links);
+
+      return sat;
     }
 
-    function resetCoalition() {
-      selectedPartyIds = [];
-      document.getElementById('coalition-result').classList.add('hidden');
-      renderParties();
-    }
+    function updateSatDisplay(partyKey, val) {
+      const valEl = document.getElementById(`sat-val-${partyKey}`);
+      const barEl = document.getElementById(`sat-bar-${partyKey}`);
+      if (valEl && barEl) {
+        valEl.textContent = `${val}%`;
+        barEl.style.width = `${val}%`;
 
-    function validateCoalition() {
-      const totalSeats = selectedPartyIds.reduce((sum, id) => {
-        const p = parties.find(x => x.id === id);
-        return sum + (p ? p.seats : 0);
-      }, 0);
-
-      const resultBox = document.getElementById('coalition-result');
-      resultBox.classList.remove('hidden');
-
-      if (totalSeats < 76) {
-        resultBox.className = "mt-6 p-5 rounded-2xl border bg-rose-50 border-rose-200 text-rose-900";
-        resultBox.innerHTML = `
-          <h4 class="font-bold text-lg mb-1 flex items-center"><i class="fa-solid fa-xmark-circle text-rose-600 mr-2"></i> Geen Meerderheid!</h4>
-          <p class="text-sm">Je hebt slechts <strong>${totalSeats} zetels</strong>. Een kabinet heeft ten minste <strong>76 zetels</strong> nodig om wetten door de Tweede Kamer te krijgen.</p>
-        `;
-      } else {
-        // Evaluate ideology match (e.g. check for extreme opposites)
-        const hasFarLeft = selectedPartyIds.some(id => id === 'gl' || id === 'pvda');
-        const hasFarRight = selectedPartyIds.some(id => id === 'pvv' || id === 'sgp');
-
-        if (hasFarLeft && hasFarRight) {
-          resultBox.className = "mt-6 p-5 rounded-2xl border bg-amber-50 border-amber-200 text-amber-900";
-          resultBox.innerHTML = `
-            <h4 class="font-bold text-lg mb-1 flex items-center"><i class="fa-solid fa-triangle-exclamation text-amber-600 mr-2"></i> Instabiele Coalitie (${totalSeats} zetels)</h4>
-            <p class="text-sm mb-2">Je hebt wel een meerderheid van zetels, maar de ideologische verschillen tussen de gekozen partijen zijn erg groot. De onderhandelingen over het Regeerakkoord zullen zwaar worden!</p>
-            <p class="text-xs text-amber-800 font-semibold">+25 Punten voor het behalen van een meerderheid.</p>
-          `;
-          addPoints(25);
-          unlockBadge('coalitie');
+        if (val >= 60) {
+          barEl.className = `h-full transition-all duration-300 bg-emerald-500`;
+        } else if (val >= 40) {
+          barEl.className = `h-full transition-all duration-300 bg-amber-500`;
         } else {
-          resultBox.className = "mt-6 p-5 rounded-2xl border bg-emerald-50 border-emerald-200 text-emerald-900";
-          resultBox.innerHTML = `
-            <h4 class="font-bold text-lg mb-1 flex items-center"><i class="fa-solid fa-circle-check text-emerald-600 mr-2"></i> Uitstekende Coalitie! (${totalSeats} zetels)</h4>
-            <p class="text-sm mb-2">Gefeliciteerd! Je hebt een stabiele meerderheid gevormd met inhoudelijk aansluitende partijen. Het regeerakkoord kan getekend worden!</p>
-            <p class="text-xs text-emerald-800 font-semibold">+50 Punten ontvangen!</p>
-          `;
-          addPoints(50);
-          unlockBadge('coalitie');
+          barEl.className = `h-full transition-all duration-300 bg-rose-500`;
         }
       }
+    }
+
+    function resetAgreement() {
+      userSelections = { klimaat: null, belasting: null, zorg: null, onderwijs: null };
+      document.getElementById('agreement-result').classList.add('hidden');
+      renderAgreementGame();
+    }
+
+    function validateAgreement() {
+      // Check if all issues are chosen
+      const allChosen = Object.values(userSelections).every(v => v !== null);
+      const resultBox = document.getElementById('agreement-result');
+      resultBox.classList.remove('hidden');
+
+      if (!allChosen) {
+        resultBox.className = "mt-6 p-5 rounded-2xl border bg-amber-50 border-amber-200 text-amber-900";
+        resultBox.innerHTML = `
+          <h4 class="font-bold text-lg mb-1 flex items-center"><i class="fa-solid fa-triangle-exclamation text-amber-600 mr-2"></i> Onderhandeling Onvolledig</h4>
+          <p class="text-sm">Kies voor alle 4 dossiers een beleidsoptie voordat je het Regeerakkoord ondertekent.</p>
+        `;
+        return;
+      }
+
+      const sat = calculateSatisfaction();
+      const allSatisfied = sat.rechts >= 60 && sat.midden >= 60 && sat.links >= 60;
+
+      if (allSatisfied) {
+        resultBox.className = "mt-6 p-5 rounded-2xl border bg-emerald-50 border-emerald-200 text-emerald-900 level-complete-card";
+        resultBox.innerHTML = `
+          <div class="flex items-start space-x-3">
+            <i class="fa-solid fa-circle-check text-emerald-600 text-3xl mt-1"></i>
+            <div>
+              <h4 class="font-bold text-lg mb-1">Gefeliciteerd! Regeerakkoord Succesvol Gesloten! 🎉</h4>
+              <p class="text-sm mb-3">Je hebt knap polderwerk geleverd! Alle drie de partijen zijn voldoende tevreden (markt: ${sat.rechts}%, midden: ${sat.midden}%, links: ${sat.links}%). Het kabinet kan beëdigd worden!</p>
+              <div class="flex items-center space-x-4">
+                <span class="text-xs font-bold bg-emerald-200 text-emerald-900 px-3 py-1 rounded-full">+50 Punten Ontvangen</span>
+                <button onclick="finishCoalitionLevel()" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-5 py-2 rounded-xl text-sm shadow">
+                  Naar Level 3: Wetgevingsproces <i class="fa-solid fa-arrow-right ml-1"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+        `;
+        addPoints(50);
+        unlockBadge('coalitie');
+      } else {
+        resultBox.className = "mt-6 p-5 rounded-2xl border bg-rose-50 border-rose-200 text-rose-900";
+        resultBox.innerHTML = `
+          <h4 class="font-bold text-lg mb-1 flex items-center"><i class="fa-solid fa-circle-xmark text-rose-600 mr-2"></i> Geen Akkoord! Een van de partijen stapt op</h4>
+          <p class="text-sm mb-2">Om een regeerakkoord te sluiten moet ELKE partij minimaal <strong>60% tevreden</strong> zijn. Huidige stand: Markt: ${sat.rechts}%, Midden: ${sat.midden}%, Links: ${sat.links}%.</p>
+          <p class="text-xs font-semibold text-rose-800">Tip: Pas je keuzes op een paar onderwerpen aan om meer water bij de wijn te doen!</p>
+        `;
+      }
+    }
+
+    function finishCoalitionLevel() {
+      switchTab('wetgeving');
     }
 
     // ==========================================
     // MODULE 3: WETGEVINGSSIMULATOR LOGIC
     // ==========================================
-    const lawStepsCorrect = [
-      { id: 1, title: "1. Initiatief of Wetsvoorstel", desc: "De regering (minister) of een Tweede Kamerlid maakt een conceptwetsvoorstel." },
-      { id: 2, title: "2. Advies Raad van State", desc: "De Raad van State geeft onafhankelijk advies over de juridische haalbaarheid van het voorstel." },
-      { id: 3, title: "3. Debat & Amendementen (2e Kamer)", desc: "De Tweede Kamer debatteert over de wet en kan wijzigingen (amendementen) indienen." },
-      { id: 4, title: "4. Stemming Tweede Kamer", desc: "De 150 leden van de Tweede Kamer stemmen over de wet." },
-      { id: 5, title: "5. Goedkeuring Eerste Kamer", desc: "De Eerste Kamer (75 leden) controleert de wet op kwaliteit. Zij mogen géén wijzigingen meer aanbrengen." },
-      { id: 6, title: "6. Bekrachtiging & Publicatie", desc: "De Koning en de minister ondertekenen de wet. Na publicatie in het Staatsblad is de wet officieel." }
+    const lawStepsMaster = [
+      { id: 1, text: "Een minister of Tweede Kamerlid formuleert een wetsvoorstel.", order: 1 },
+      { id: 2, text: "De Raad van State geeft inhoudelijk advies over het wetsvoorstel.", order: 2 },
+      { id: 3, text: "De Tweede Kamer debatteert, stemt over amendementen en stemt over het wetsvoorstel.", order: 3 },
+      { id: 4, text: "De Eerste Kamer controleert het wetsvoorstel op rechtmatigheid en uitvoerbaarheid.", order: 4 },
+      { id: 5, text: "De Koning en de minister ondertekenen de wet en deze wordt gepubliceerd in het Staatsblad.", order: 5 }
     ];
 
-    let currentLawOrder = [];
+    let currentLawSteps = [];
 
-    function initLawSteps() {
-      // Shuffle steps initially
-      currentLawOrder = [...lawStepsCorrect].sort(() => Math.random() - 0.5);
+    function resetLawSteps() {
+      currentLawSteps = [...lawStepsMaster].sort(() => Math.random() - 0.5);
       renderLawSteps();
+      document.getElementById('law-feedback').classList.add('hidden');
     }
 
     function renderLawSteps() {
       const container = document.getElementById('law-steps-list');
+      if (!container) return;
       container.innerHTML = '';
 
-      currentLawOrder.forEach((step, index) => {
-        const item = document.createElement('div');
-        item.className = "bg-slate-50 border border-slate-200 p-3.5 rounded-xl flex items-center justify-between shadow-sm cursor-pointer hover:bg-slate-100 transition";
-        item.innerHTML = `
+      currentLawSteps.forEach((step, idx) => {
+        const div = document.createElement('div');
+        div.className = "flex items-center justify-between p-4 bg-slate-50 border border-slate-200 rounded-xl shadow-sm hover:border-indigo-300 transition";
+        div.innerHTML = `
           <div class="flex items-center space-x-3">
-            <span class="w-7 h-7 bg-indigo-600 text-white rounded-full flex items-center justify-center font-bold text-xs">${index + 1}</span>
-            <div>
-              <div class="font-bold text-slate-800 text-sm">${step.title}</div>
-              <div class="text-xs text-slate-500">${step.desc}</div>
-            </div>
+            <span class="bg-indigo-600 text-white w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold">${idx + 1}</span>
+            <span class="text-sm font-medium text-slate-800">${step.text}</span>
           </div>
-          <div class="flex flex-col space-y-1">
-            <button onclick="moveLawStep(${index}, -1)" ${index === 0 ? 'disabled class="opacity-30"' : ''} class="text-slate-500 hover:text-indigo-600 text-xs p-1">
-              <i class="fa-solid fa-chevron-up"></i>
+          <div class="flex space-x-1">
+            <button onclick="moveLawStep(${idx}, -1)" ${idx === 0 ? 'disabled class="opacity-30 p-1.5"' : 'class="p-1.5 text-slate-600 hover:text-indigo-600"'}>
+              <i class="fa-solid fa-arrow-up"></i>
             </button>
-            <button onclick="moveLawStep(${index}, 1)" ${index === currentLawOrder.length - 1 ? 'disabled class="opacity-30"' : ''} class="text-slate-500 hover:text-indigo-600 text-xs p-1">
-              <i class="fa-solid fa-chevron-down"></i>
+            <button onclick="moveLawStep(${idx}, 1)" ${idx === currentLawSteps.length - 1 ? 'disabled class="opacity-30 p-1.5"' : 'class="p-1.5 text-slate-600 hover:text-indigo-600"'}>
+              <i class="fa-solid fa-arrow-down"></i>
             </button>
           </div>
         `;
-        container.appendChild(item);
+        container.appendChild(div);
       });
     }
 
     function moveLawStep(index, direction) {
       const targetIndex = index + direction;
-      if (targetIndex < 0 || targetIndex >= currentLawOrder.length) return;
-      const temp = currentLawOrder[index];
-      currentLawOrder[index] = currentLawOrder[targetIndex];
-      currentLawOrder[targetIndex] = temp;
+      if (targetIndex < 0 || targetIndex >= currentLawSteps.length) return;
+      const temp = currentLawSteps[index];
+      currentLawSteps[index] = currentLawSteps[targetIndex];
+      currentLawSteps[targetIndex] = temp;
       renderLawSteps();
     }
 
-    function resetLawSteps() {
-      initLawSteps();
-      document.getElementById('law-feedback').classList.add('hidden');
-    }
-
     function checkLawOrder() {
-      let isCorrect = true;
-      for (let i = 0; i < currentLawOrder.length; i++) {
-        if (currentLawOrder[i].id !== lawStepsCorrect[i].id) {
-          isCorrect = false;
-          break;
-        }
-      }
-
-      const feedback = document.getElementById('law-feedback');
-      feedback.classList.remove('hidden');
+      const isCorrect = currentLawSteps.every((step, idx) => step.order === idx + 1);
+      const feedbackEl = document.getElementById('law-feedback');
+      feedbackEl.classList.remove('hidden');
 
       if (isCorrect) {
-        feedback.className = "mt-6 p-4 rounded-xl text-sm bg-emerald-50 border border-emerald-200 text-emerald-900";
-        feedback.innerHTML = `
-          <div class="font-bold flex items-center text-base mb-1">
-            <i class="fa-solid fa-circle-check text-emerald-600 mr-2"></i> Perfect Onthouden!
+        feedbackEl.className = "mt-6 p-5 rounded-2xl text-sm bg-emerald-50 border border-emerald-200 text-emerald-900 level-complete-card";
+        feedbackEl.innerHTML = `
+          <div class="flex items-start space-x-3">
+            <i class="fa-solid fa-circle-check text-emerald-600 text-3xl mt-0.5"></i>
+            <div>
+              <h4 class="font-bold text-lg mb-1">Level 3 Voltooid: Uitstekend! 📜</h4>
+              <p class="text-sm mb-3">Je beheerst de exacte chronologische stappen van het Nederlandse wetgevingsproces van A tot Z.</p>
+              <div class="flex items-center space-x-4">
+                <span class="text-xs font-bold bg-emerald-200 text-emerald-900 px-3 py-1 rounded-full">+50 Punten Ontvangen</span>
+                <button onclick="switchTab('dilemmas')" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold px-5 py-2 rounded-xl text-sm shadow">
+                  Speel Level 4: Minister Dilemma's <i class="fa-solid fa-arrow-right ml-1"></i>
+                </button>
+              </div>
+            </div>
           </div>
-          <p>Alle stappen staan in de exacte volgorde zoals vastgelegd in de Nederlandse Grondwet!</p>
         `;
         addPoints(50);
         unlockBadge('wetgeving');
       } else {
-        feedback.className = "mt-6 p-4 rounded-xl text-sm bg-rose-50 border border-rose-200 text-rose-900";
-        feedback.innerHTML = `
-          <div class="font-bold flex items-center text-base mb-1">
-            <i class="fa-solid fa-circle-xmark text-rose-600 mr-2"></i> Nog niet helemaal juist!
-          </div>
-          <p>De volgorde klopt nog niet helemaal. Tip: Een wet gaat altijd éérst langs de Tweede Kamer voordat de Eerste Kamer ernaar kijkt!</p>
-        `;
+        feedbackEl.className = "mt-6 p-4 rounded-xl text-sm bg-rose-50 border border-rose-200 text-rose-800";
+        feedbackEl.innerHTML = `<i class="fa-solid fa-circle-xmark text-rose-600 mr-2"></i> De volgorde klopt nog niet helemaal. Denk eraan: Raad van State adviseert vóór behandeling in de Kamer, en de Eerste Kamer komt ná de Tweede Kamer! Probeer het opnieuw.`;
       }
     }
 
     // ==========================================
-    // MODULE 4: DILEMMA SIMULATOR LOGIC
+    // MODULE 4: DILEMMA LOGIC
     // ==========================================
-    const dilemmas = [
+    const dilemmaData = [
       {
-        topic: "Woningnood & Klimaat",
-        title: "Nieuwe Woningen vs. Stikstofnormen",
-        description: "Er is een enorm tekort aan betaalbare woningen voor jongeren. Om snel 50.000 huizen te bouwen, moeten de milieuregels voor stikstof tijdelijk worden versoepeld.",
+        topic: "Zorg & Begroting",
+        title: "Stijgende Zorgkosten vs. Belastingen",
+        description: "De zorgkosten stijgen snel. Je moet als minister kiezen: verhoog je de belastingen om de zorg gratis en toegankelijk te houden voor iedereen, of voer je meer eigen risico in voor de burgers?",
         choices: [
           {
-            text: "Versoepel de regels en bouw snel woningen.",
-            outcome: "De woningnood daalt snel en jongeren krijgen een huis. Milieu-organisaties stappen echter naar de rechter vanwege natuurschade.",
+            title: "Belastingen Verhogen",
+            text: "Kies voor solidariteit en een sterke overheid die de zorg volledig financiert.",
+            consequence: "Sociale partijen steunen dit besluit. Middeninkomens ervaren wel iets minder koopkracht, maar de zorg blijft voor iedereen toegankelijk.",
             points: 30
           },
           {
-            text: "Houd streng vast aan de milieunormen.",
-            outcome: "De natuur blijft beschermd en het klimaatdoel wordt gehaald, maar de woningnood en huren blijven stijgen.",
+            title: "Eigen Risico Verhogen",
+            text: "Kies voor marktwerking en eigen verantwoordelijkheid van burgers.",
+            consequence: "Liberaal georiënteerde partijen waarderen het financieel herstel van de begroting. Lage inkomens krijgen het echter zwaarder.",
             points: 30
           }
         ]
       },
       {
-        topic: "Onderwijs & Begroting",
-        title: "Investeren in Onderwijs of Zorg?",
-        description: "Het ministerie van Financiën heeft 2 miljard euro aan overschot. Waar zet je dit geld primair voor in?",
+        topic: "Klimaat & Economie",
+        title: "Stikstofreductie vs. Woningbouw",
+        description: "Er is een enorme woningnood, maar strenge milieuregels vertragen de bouw. Halveer je de veestapel om direct ruimte te maken voor huizen, of versoepel je de milieuregels?",
         choices: [
           {
-            text: "Verhoog de salarissen van leraren en verklein de klassen.",
-            outcome: "Het lerarentekort neemt af en de onderwijskwaliteit stijgt. De zorgsector krijgt echter te maken met langere wachtlijsten.",
+            title: "Veestapel Halveren",
+            text: "Strikte handhaving van milieudoelen ten koste van de agrarische sector.",
+            consequence: "Milieuorganisaties en ecologische partijen juichen dit toe. Boeren demonstreren, maar de woningbouw kan binnen de stikstofgrenzen doorgaan.",
             points: 30
           },
           {
-            text: "Extra geld naar de zorg om wachtlijsten te verkorten.",
-            outcome: "Patiënten worden sneller geholpen in ziekenhuizen. In het onderwijs blijft de werkdruk voor leraren helaas hoog.",
+            title: "Milieuregels Versoepelen",
+            text: "Geef prioriteit aan snelle woningbouw en de bouwsector.",
+            consequence: "Huizenzoekers zijn opgewekt over de snelle start van projecten. De Europese Commissie dreigt echter met boetes wegens schending van de natuurwetgeving.",
             points: 30
           }
         ]
@@ -777,20 +954,23 @@
     let currentDilemmaIndex = 0;
 
     function loadDilemma() {
-      if (currentDilemmaIndex >= dilemmas.length) {
+      if (currentDilemmaIndex >= dilemmaData.length) {
         unlockBadge('dilemma');
-        document.getElementById('dilemma-card').innerHTML = `
-          <div class="text-center py-6">
-            <div class="text-5xl mb-3">🎖️</div>
-            <h3 class="text-2xl font-bold text-slate-800 mb-2">Alle Dilemma's Doorlopen!</h3>
-            <p class="text-slate-600 text-sm">Je hebt bewezen een doordachte en verantwoordelijke bestuurder te zijn.</p>
+        document.getElementById('module-dilemmas').innerHTML = `
+          <div class="bg-white rounded-2xl p-8 text-center border border-slate-200 shadow-sm level-complete-card">
+            <div class="text-5xl mb-3">👑</div>
+            <div class="text-xs font-bold uppercase tracking-wider text-amber-600 mb-1">Gefeliciteerd! Spel Voltooid</div>
+            <h2 class="text-2xl font-bold text-slate-800 mb-2">Alle Ministeriële Dilemma's Afgerond!</h2>
+            <p class="text-slate-600 text-sm mb-6 max-w-md mx-auto">Je hebt alle levels succesvol afgerond en laten zien dat je klaar bent voor de politieke arena!</p>
+            <button onclick="switchTab('theorie')" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold px-8 py-3 rounded-xl shadow-lg transition">
+              Bekijk Begrippenlijst voor je Toets <i class="fa-solid fa-book-open ml-2"></i>
+            </button>
           </div>
         `;
-        document.getElementById('dilemma-consequence').classList.add('hidden');
         return;
       }
 
-      const d = dilemmas[currentDilemmaIndex];
+      const d = dilemmaData[currentDilemmaIndex];
       document.getElementById('dilemma-topic').textContent = d.topic;
       document.getElementById('dilemma-title').textContent = d.title;
       document.getElementById('dilemma-description').textContent = d.description;
@@ -798,25 +978,34 @@
       const choicesContainer = document.getElementById('dilemma-choices');
       choicesContainer.innerHTML = '';
 
-      d.choices.forEach((choice, idx) => {
+      d.choices.forEach((c, idx) => {
         const btn = document.createElement('button');
-        btn.className = "bg-white border-2 border-indigo-200 hover:border-indigo-600 p-4 rounded-xl text-left transition font-medium text-slate-800 hover:bg-indigo-50/50 shadow-sm";
-        btn.innerHTML = `<span class="font-bold text-indigo-600 mr-2">Optie ${idx + 1}:</span> ${choice.text}`;
-        btn.onclick = () => selectDilemmaChoice(choice);
+        btn.className = "text-left bg-white border border-slate-200 hover:border-indigo-500 hover:bg-indigo-50/40 p-5 rounded-xl transition shadow-sm flex flex-col justify-between";
+        btn.innerHTML = `
+          <div>
+            <h4 class="font-bold text-indigo-900 text-base mb-1">${c.title}</h4>
+            <p class="text-slate-600 text-xs leading-relaxed mb-3">${c.text}</p>
+          </div>
+          <span class="text-xs font-semibold text-indigo-600 flex items-center">
+            Maak deze keuze <i class="fa-solid fa-chevron-right ml-1 text-[10px]"></i>
+          </span>
+        `;
+        btn.onclick = () => selectDilemmaChoice(idx);
         choicesContainer.appendChild(btn);
       });
 
       document.getElementById('dilemma-consequence').classList.add('hidden');
     }
 
-    function selectDilemmaChoice(choice) {
-      const consequenceEl = document.getElementById('dilemma-consequence');
-      const textEl = document.getElementById('dilemma-consequence-text');
-      textEl.textContent = choice.outcome;
-      consequenceEl.classList.remove('hidden');
+    function selectDilemmaChoice(idx) {
+      const d = dilemmaData[currentDilemmaIndex];
+      const choice = d.choices[idx];
+
+      document.getElementById('dilemma-consequence-text').textContent = choice.consequence;
+      document.getElementById('dilemma-consequence').classList.remove('hidden');
 
       addPoints(choice.points);
-      showToast(`+${choice.points} Punten voor jouw keus!`, "fa-thumbs-up text-indigo-400");
+      showToast(`+${choice.points} Punten voor besluitvorming!`, "fa-award text-emerald-400");
     }
 
     function nextDilemma() {
@@ -827,8 +1016,8 @@
     // INITIALIZATION ON LOAD
     window.onload = function() {
       loadStromingQuestion();
-      renderParties();
-      initLawSteps();
+      renderAgreementGame();
+      resetLawSteps();
       loadDilemma();
     };
   </script>
